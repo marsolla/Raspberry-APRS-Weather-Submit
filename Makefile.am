@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License along
 # with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
 
-bin_PROGRAMS = aprs-weather-submit
-aprs_weather_submit_SOURCES = src/main.c src/aprs-wx.c src/aprs-is.c
-man1_MANS = man/aprs-weather-submit.man
+bin_PROGRAMS = raspi-aprs-weather-submit
+raspi_aprs_weather_submit_SOURCES = src/main.c src/aprs-wx.c src/aprs-is.c
+man1_MANS = man/raspi-aprs-weather-submit.man
 LDADD = -lm

@@ -1,4 +1,9 @@
 /*
+ raspi-aprs-weather-submit version 1.5
+ Modified by Rafael Marsolla <rafamarsolla@gmail.com>
+
+ Official Dev of aprs-weather-submit version 1.5:
+
  aprs-weather-submit version 1.5
  Copyright (c) 2019-2022 Colin Cogle <colin@colincogle.name>
 
@@ -27,6 +32,7 @@ with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
 
 #include "main.h"    /* PACKAGE, VERSION, BUFSIZE */
 #include "aprs-wx.h"
+#define HAVE_APRSIS_SUPPORT 1
 
 /**
  * packetConstructor() -- put some default values into an APRSPacket
@@ -253,80 +259,82 @@ printAPRSPacket (APRSPacket* restrict const p, char* restrict const ret,
 		 * Add 33 as per the spec, and you get 67, the ASCII code for 'C'.
 		 *                                                           ?
 		 *                              header_________ timestamp____ pos_wc_s_Tt__*/
-		int ret = snprintf(result, 48, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz/%s%s_%c%cCt%s",
+		//int ret = snprintf(result, 48, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz/%s%s_%c%cg%cCt%s",
+		int ret = snprintf(result, 53, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz/%s%s_%c%cg%cCt%s",
 			p->callsign, now->tm_mday, now->tm_hour, now->tm_min,
-			p->latitude, p->longitude, p->windDirection[0], p->windSpeed[0],
+			p->latitude, p->longitude, p->windDirection[0], p->windSpeed[0],p->gust[0],
 			p->temperature);
 		assert(ret >= 0);
 	}
 	else {
 		/*                              header_________ timestamp____pos__wc_ s_t__*/
-		int ret = snprintf(result, 61, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz%s/%s_%s/%st%s",
+		//int ret = snprintf(result, 61, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz%s/%s_%s/%sg%st%s",
+		int ret = snprintf(result, 66, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz%s/%s_%s/%sg%st%s",
 			p->callsign, now->tm_mday, now->tm_hour, now->tm_min,
-			p->latitude, p->longitude, p->windDirection, p->windSpeed,
+			p->latitude, p->longitude, p->windDirection, p->windSpeed,p->gust,
 			p->temperature);
 		assert(ret >= 0);
 	}
 
-	if (notNull(p->gust))
+/*	if (notNull(p->gust))
 	{
-		strncat(result, "g", 1);
+		strncat(result, "g=", 2);
 		strncat(result, p->gust, 4);
 	}
-
+*/
 	if (notNull(p->rainfallLastHour))
 	{
-		strncat(result, "r", 1);
-		strncat(result, p->rainfallLastHour, 4);
+		strncat(result, "r", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->rainfallLastHour, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->rainfallLast24Hours))
 	{
-		strncat(result, "p", 1);
-		strncat(result, p->rainfallLast24Hours, 4);
+		strncat(result, "p", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->rainfallLast24Hours, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->rainfallSinceMidnight))
 	{
-		strncat(result, "P", 1);
-		strncat(result, p->rainfallSinceMidnight, 4);
+		strncat(result, "P", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->rainfallSinceMidnight, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->humidity))
 	{
-		strncat(result, "h", 1);
-		strncat(result, p->humidity, 3);
+		strncat(result, "h",(sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->humidity, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->pressure))
 	{
-		strncat(result, "b", 1);
-		strncat(result, p->pressure, 6);
+		strncat(result, "b",(sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->pressure, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->luminosity))
 	{
 		/* Remember, the letter is included below. */
-		strncat(result, p->luminosity, 5);
+		strncat(result, p->luminosity, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->radiation))
 	{
-		strncat(result, "X", 1);
-		strncat(result, p->radiation, 5);
+		strncat(result, "X", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->radiation, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	/* F is required by APRS 1.2 if voltage is present  */
 	if (notNull(p->waterLevel) || notNull(p->voltage))
 	{
-		strncat(result, "F", 1);
-		strncat(result, p->waterLevel, 5);
+		strncat(result, "F", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->waterLevel, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->voltage))
 	{
-		strncat(result, "V", 1);
-		strncat(result, p->voltage, 4);
+		strncat(result, "V",(sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->voltage,(sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->snowfallLast24Hours))
@@ -335,25 +343,28 @@ printAPRSPacket (APRSPacket* restrict const p, char* restrict const ret,
 		 * period as the start of a comment, and will ignore the weather data
 		 * after it.
 		 */
-		strncat(result, "s", 1);
-		strncat(result, p->snowfallLast24Hours, 4);
+		strncat(result, "s",(sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->snowfallLast24Hours, (sizeof(result) -1 ) - strlen(result));
 	}
 
 	if (notNull(p->altitude))
 	{
-		strncat(result, "/A=", 3);
-		strncat(result, p->altitude, 7);
+		strncat(result, "/A=", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->altitude, (sizeof(result) -1 ) - strlen(result));
+		strncat(result, "m", (sizeof(result) -1 ) - strlen(result));
 	}
 	
 	if (suppressUserAgent != 0)
 	{
-		strncat(result, "X", 1);
-		strncat(result, PACKAGE, strlen(PACKAGE));
-		strncat(result, "/", 1);
-		strncat(result, VERSION, strlen(VERSION));
+		strncat(result, " X ",(sizeof(result) -1 ) - strlen(result));
+		//strncat(result, "FATWeatherStation", BUFSIZE - strlen(result) - 17);
+		strncat(result, PACKAGE, (sizeof(result) -1 ) - strlen(result));
+		//strncat(result, "/", 1);
+		strncat(result, " V", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, VERSION, (sizeof(result) -1 ) - strlen(result));
 	}
 
-	strncat(result, "\n\0", 2);
+	strncat(result, "\n\0",(sizeof(result) -1 ) - strlen(result));
 	strcpy(ret, result);
 	return;
 }

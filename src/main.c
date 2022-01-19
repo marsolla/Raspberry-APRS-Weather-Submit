@@ -1,4 +1,9 @@
 /*
+ raspi-aprs-weather-submit version 1.5
+ Modified by Rafael Marsolla <rafamarsolla@gmail.com>
+
+ Official Dev of aprs-weather-submit version 1.5:
+
  aprs-weather-submit version 1.5
  Copyright (c) 2019-2022 Colin Cogle <colin@colincogle.name>
  
@@ -27,6 +32,7 @@ with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
 #include <math.h>           /* round(), floor() */
 #include <stdint.h>         /* uint16_t */
 #include <assert.h>			/* assert() */
+#define HAVE_APRSIS_SUPPORT 1
 
 #ifdef HAVE_APRSIS_SUPPORT
 #include "aprs-is.h"
@@ -47,7 +53,7 @@ main (const int argc, const char** argv)
 {
 	char         packetToSend[BUFSIZE] = "";
 	char         packetFormat = UNCOMPRESSED_PACKET;
-	char         suppressUserAgent = 0;
+	char         suppressUserAgent = 1;
     char         c = '\0';          /* for getopt_long() */
     int          option_index = 0;  /* for getopt_long() */
 	int          i = 0;
@@ -97,7 +103,7 @@ main (const int argc, const char** argv)
 		{"radiation",               required_argument, 0, 'X'},
 		{"water-level-above-stage", required_argument, 0, 'F'}, /* APRS 1.2 */
 		{"voltage",                 required_argument, 0, 'V'}, /* APRS 1.2 */
-		{0, 0, 0, 0}
+		//{0, 0, 0, 0}
 	};
 
 #ifdef DEBUG
@@ -122,7 +128,7 @@ main (const int argc, const char** argv)
 		strcpy(packet.windSpeed, "...");
 	}
 
-	while ((c = (char) getopt_long(argc, (char* const*)argv, "CHvI:o:u:d:k:n:e:c:S:g:t:T:r:P:p:s:h:b:L:X:F:V:", long_options, &option_index)) != -1)
+	while ((c = (char) getopt_long(argc , (char* const*)argv, "CHvI:o:u:d:k:n:e:c:S:g:t:T:r:P:p:s:h:b:L:X:F:V:", long_options, &option_index)) != 255)
 	{
 		double x = 0.0;	 /* scratch space */
 
@@ -240,7 +246,7 @@ main (const int argc, const char** argv)
 				}
 				else
 				{
-					formatTruncationCheck = snprintf(packet.altitude, 6, "%05d", (int)x);
+					formatTruncationCheck = snprintf(packet.altitude, 6, "%5d", (int)x);
 					assert(formatTruncationCheck >= 0);
 				}
 				break;

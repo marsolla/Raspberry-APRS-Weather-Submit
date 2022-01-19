@@ -1,4 +1,9 @@
 /*
+ raspi-aprs-weather-submit version 1.5
+ Modified by Rafael Marsolla <rafamarsolla@gmail.com>
+
+ Official Dev of aprs-weather-submit version 1.5:
+
  aprs-weather-submit version 1.5
  Copyright (c) 2019-2022 Colin Cogle <colin@colincogle.name>
  
@@ -24,9 +29,10 @@ with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
 
 /* Program constants that should be set by ./configure. */
 #ifndef PACKAGE
-#define PACKAGE "aprs-weather-submit"
+#define PACKAGE "raspi-aprs_weather_submit"
 #endif
 
+#define HAVE_APRSIS_SUPPORT 1
 #ifndef VERSION
 #define VERSION "1.5"
 #endif
@@ -34,8 +40,8 @@ with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
 /**
  * usage() -- show some help.
  *
- * @author Colin Cogle
- * @since  0.1
+ * @author Colin Cogle Modified by Rafael Marsolla
+ * @since  1.5
  */
 extern void
 usage (void);
@@ -43,8 +49,8 @@ usage (void);
 /**
  * help() -- show even more help.
  *
- * @author Colin Cogle
- * @since  0.1
+ * @author Colin Cogle Modified by Rafael Marsolla
+ * @since  1.5
  */
 extern void
 help (void);
@@ -52,8 +58,8 @@ help (void);
 /**
  * version() -- show the version.
  *
- * @author Colin Cogle
- * @since  0.1
+ * @author Colin Cogle Modified by Rafael Marsolla
+ * @since  1.5
  */
 extern void
 version (void);

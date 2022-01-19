@@ -17,8 +17,8 @@ dnl
 dnl  You should have received a copy of the GNU Affero General Public License
 dnl  along with this program. If not, see <http://gnu.org/licenses/agpl-3.0.html>.
 
-AC_INIT([aprs-weather-submit], [1.5], [colin@colincogle.name])
-AM_INIT_AUTOMAKE([foreign subdir-objects -Wall -Werror])
+AC_INIT([raspi-aprs-weather-submit], [1.5], [rafamarsolla@gmail.com])
+AM_INIT_AUTOMAKE([foreign subdir-objects -Wall -Werror ])
 AC_PREREQ
 AC_PROG_INSTALL
 
@@ -38,7 +38,7 @@ dnl    -std=gnu99    Compile C99, with GNU extensions (for getaddrinfo,
 dnl                  gai_strerror, freeaddrinfo, struct addrinfo)
 dnl    -Wall         Complain heavily.
 dnl    -Werror       Make all warnings errors.
-AM_CFLAGS="-I. -std=gnu99 -Wall -Werror"
+AM_CFLAGS="-I. -std=gnu99 -Wall -Werror -g"
 AM_LDFLAGS="-lm"
 AC_SUBST([AM_CFLAGS])
 AC_SUBST([AM_LDFLAGS])

@@ -18,6 +18,7 @@ details.
 You should have received a copy of the GNU Affero General Public License along
 with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
  */
+#define HAVE_APRSIS_SUPPORT 1
 
 #ifdef HAVE_APRSIS_SUPPORT
 
@@ -172,7 +173,7 @@ sendPacket (const char* const restrict server, const unsigned short port,
 	send(socket_desc, buffer, (size_t)strlen(buffer), 0);
 
 	strcpy(verificationMessage, username);
-	strncat(verificationMessage, " verified", 9);
+	strncat(verificationMessage, " verified", BUFSIZE - strlen(verificationMessage) - 9);
 	bytesRead = recv(socket_desc, buffer, BUFSIZE, 0);
 	while (bytesRead > 0)
 	{

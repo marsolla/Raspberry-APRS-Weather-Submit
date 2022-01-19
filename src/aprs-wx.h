@@ -1,5 +1,9 @@
 /*
- aprs-weather-submit version 1.5
+ raspi-aprs-weather-submit version 1.5
+ Modified by Rafael Marsolla <rafamarsolla@gmail.com>
+
+ Official Dev of aprs-weather-submit version 1.5:
+
  Copyright (c) 2019-2022 Colin Cogle <colin@colincogle.name>
  
  This file, aprs-wx.h, is part of aprs-weather-submit.
@@ -21,6 +25,8 @@ with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
 
 #ifndef aprs_wx_h
 #define aprs_wx_h
+
+#define HAVE_APRSIS_SUPPORT 1
 
 typedef struct APRSPacket
 {
