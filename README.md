@@ -1,3 +1,27 @@
+# aprs-weather-submit for Raspberry Pi - ARM Platform.
+*LEGAL NOTICE*
+
+*To use this app, you must be either:
+a licensed amateur radio operator, or a member of the Citizen Weather Observer Program in good standing.*
+
+This is a repository with minor adaptations to run on Raspberry Pi - ARM Platform, among the changes are:
+* Changing the argument menu in getopt_long function main.c (return 255 instead of -1)
+* Safe use of strncat function calculating buffer value without overflow (aprs-wx.c)
+* Forced use mode APRS_IS, no longer optional - #define HAVE_APRSIS_SUPPORT 1 forever
+
+To compile:
+sudo apt install autoconf
+autoreconf -i
+./configure
+make
+make install (if you want to install)
+
+For more details, see the official developer repository: https://github.com/rhymeswithmogul/aprs-weather-submit
+
+QTH. 73, PU2XNA
+
+The text below was copied from official repository:
+
 # aprs-weather-submit
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a5e5337dd57b486089391aabd2f5429b)](https://app.codacy.com/gh/rhymeswithmogul/aprs-weather-submit?utm_source=github.com\&utm_medium=referral\&utm_content=rhymeswithmogul/aprs-weather-submit\&utm_campaign=Badge_Grade_Settings)
@@ -61,3 +85,4 @@ To use this app, you *must* be either:
 Like it says in the license:  this app is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the [GNU Affero General Public License 3.0](https://www.gnu.org/licenses/agpl-3.0.html) for more details.  As such, you and you alone are solely responsible for using this app to submit complete and correct weather and/or location data.  Please do not use this app for evil.  Don't make me regret writing this app.
 
 QTH. 73, KC1HBK
+
