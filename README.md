@@ -10,12 +10,13 @@ This is a repository with minor adaptations to run on Raspberry Pi - ARM Platfor
 * Forced use mode APRS_IS, no longer optional - #define HAVE_APRSIS_SUPPORT 1 forever
 
 To compile:
+```console
 sudo apt install autoconf
 autoreconf -i
 ./configure
 make
 make install (if you want to install)
-
+```
 For more details, see the official developer repository: https://github.com/rhymeswithmogul/aprs-weather-submit
 
 QTH. 73, PU2XNA
