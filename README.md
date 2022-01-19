@@ -1,4 +1,4 @@
-# aprs-weather-submit for Raspberry Pi - ARM Platform.
+# raspi-aprs-weather-submit for Raspberry Pi - ARM Platform.
 *LEGAL NOTICE*
 
 *To use this app, you must be either:
