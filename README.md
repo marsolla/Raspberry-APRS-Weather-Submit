@@ -23,7 +23,7 @@ Anyone can use this app to create [an APRS packet](http://www.aprs.org/doc/APRS1
 ## How to compile:
 
 ```console
-sudo apt install autoconf
+sudo apt install autoconf automake libtool
 autoreconf -i
 ./configure
 make
