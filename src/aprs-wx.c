@@ -355,7 +355,7 @@ printAPRSPacket (APRSPacket* restrict const p, char* restrict const ret,
 		strncat(result, "m", (sizeof(result) -1 ) - strlen(result));
 	}
 	
-	if (suppressUserAgent != 0)
+	if (suppressUserAgent == 0)
 	{
 		strncat(result, " X ",(sizeof(result) -1 ) - strlen(result));
 		strncat(result, PACKAGE, (sizeof(result) -1 ) - strlen(result));
