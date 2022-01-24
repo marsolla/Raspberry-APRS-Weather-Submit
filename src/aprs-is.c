@@ -18,9 +18,7 @@ details.
 You should have received a copy of the GNU Affero General Public License along
 with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
  */
-#define HAVE_APRSIS_SUPPORT 1
 
-#ifdef HAVE_APRSIS_SUPPORT
 
 #include <stdio.h>      /* fprintf(), printf(), fputs() */
 #include <stdlib.h>     /* malloc(), free(), exit() and constants */
@@ -209,4 +207,3 @@ sendPacket (const char* const restrict server, const unsigned short port,
 	return;
 }
 
-#endif /* HAVE_APRSIS_SUPPORT */

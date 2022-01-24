@@ -1,14 +1,14 @@
 /*
  raspi-aprs-weather-submit version 1.5
  Modified by Rafael Marsolla <rafamarsolla@gmail.com>
+ <https://github.com/marsolla/Raspberry-APRS-Weather-Submit>
 
  Official Dev of aprs-weather-submit version 1.5:
-
  aprs-weather-submit version 1.5
  Copyright (c) 2019-2022 Colin Cogle <colin@colincogle.name>
- 
- This file, main.h, is part of aprs-weather-submit.
  <https://github.com/rhymeswithmogul/aprs-weather-submit>
+ 
+ This file, main.h, is part of raspi-aprs-weather-submit.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU Affero General Public License as published by the Free
@@ -32,7 +32,6 @@ with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
 #define PACKAGE "raspi-aprs_weather_submit"
 #endif
 
-#define HAVE_APRSIS_SUPPORT 1
 #ifndef VERSION
 #define VERSION "1.5"
 #endif

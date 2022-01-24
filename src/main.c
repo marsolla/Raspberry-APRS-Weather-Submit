@@ -1,14 +1,14 @@
 /*
  raspi-aprs-weather-submit version 1.5
  Modified by Rafael Marsolla <rafamarsolla@gmail.com>
+ <https://github.com/marsolla/Raspberry-APRS-Weather-Submit>
 
  Official Dev of aprs-weather-submit version 1.5:
-
  aprs-weather-submit version 1.5
  Copyright (c) 2019-2022 Colin Cogle <colin@colincogle.name>
- 
- This file, main.c, is part of aprs-weather-submit.
  <https://github.com/rhymeswithmogul/aprs-weather-submit>
+
+ This file, main.c, is part of raspi-aprs-weather-submit.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU Affero General Public License as published by the Free
@@ -32,11 +32,8 @@ with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
 #include <math.h>           /* round(), floor() */
 #include <stdint.h>         /* uint16_t */
 #include <assert.h>			/* assert() */
-#define HAVE_APRSIS_SUPPORT 1
 
-#ifdef HAVE_APRSIS_SUPPORT
 #include "aprs-is.h"
-#endif
 
 #ifndef _WIN32
 #include <getopt.h>         /* getopt_long() */
@@ -60,12 +57,10 @@ main (const int argc, const char** argv)
 	int          formatTruncationCheck;  /* so we can compile without
 	                                        -Wno-format-trunctionation */
 	APRSPacket   packet;
-#ifdef HAVE_APRSIS_SUPPORT
     char         username[BUFSIZE] = "";
     char         password[BUFSIZE] = "";
     char         server[NI_MAXHOST] = "";
     uint16_t     port = 0;
-#endif
 
 	const static struct option long_options[] = {
 		{"compressed-position",     no_argument,       0, 'C'},
@@ -73,12 +68,10 @@ main (const int argc, const char** argv)
 		{"no-comment",              no_argument,       0, 'Q'},
 		{"help",                    no_argument,       0, 'H'},
 		{"version",                 no_argument,       0, 'v'},
-#ifdef HAVE_APRSIS_SUPPORT
         {"server",                  required_argument, 0, 'I'},
 		{"port",                    required_argument, 0, 'o'},
 		{"username",                required_argument, 0, 'u'},
 		{"password",                required_argument, 0, 'd'},
-#endif
         {"callsign",                required_argument, 0, 'k'},
 		{"latitude",                required_argument, 0, 'n'},
 		{"longitude",               required_argument, 0, 'e'},
@@ -157,7 +150,6 @@ main (const int argc, const char** argv)
 				version();
 				return EXIT_SUCCESS;
 
-#ifdef HAVE_APRSIS_SUPPORT
 			/* IGate server name (-I | --server) */
 			case 'I':
 				formatTruncationCheck = snprintf(server, strlen(optarg)+1, "%s", optarg);
@@ -186,7 +178,6 @@ main (const int argc, const char** argv)
 				formatTruncationCheck = snprintf(password, strlen(optarg)+1, "%s", optarg);
 				assert(formatTruncationCheck >= 0);
 				break;
-#endif /* HAVE_APRSIS_SUPPORT */
 
 			/* Callsign, with SSID if desired (-k | --callsign) */
 			case 'k':
@@ -544,7 +535,6 @@ main (const int argc, const char** argv)
 	/* Create the APRS packet. */
 	printAPRSPacket(&packet, packetToSend, packetFormat, suppressUserAgent);
 
-#ifdef HAVE_APRSIS_SUPPORT
 	/*
 	 * If we specified all of the server information, send the packet.
 	 * Otherwise, print the packet to stdout and let the user deal with it.
@@ -555,11 +545,8 @@ main (const int argc, const char** argv)
 	}
 	else
 	{
-#endif
 		fputs(packetToSend, stdout);
-#ifdef HAVE_APRSIS_SUPPORT
 	}
-#endif
 	
 	return EXIT_SUCCESS;
 }
@@ -577,11 +564,8 @@ version (void)
 #ifdef DEBUG
     fputs(", compiled with debugging output", stdout);
 #endif
-#ifndef HAVE_APRSIS_SUPPORT
-    fputs(", compiled without APRS-IS support", stdout);
-#endif
     puts(".\n\
-Copyright (c) 2019-2022 Colin Cogle.\n\
+Copyright (c) 2019-2022 Colin Cogle. Adapted for Raspberry PI by Rafael Marsolla (c) 2022.\n\
 This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n\
 are welcome to redistribute it under certain conditions.  See the GNU General\n\
 Public License (version 3.0) for more details.");
@@ -598,6 +582,7 @@ inline void
 usage(void)
 {
 	printf("Usage: %s --callsign [CALLSIGN[-SSID]] --latitude [LATITUDE] --longitude [LONGITUDE] [OTHER PARAMETERS]\n", PACKAGE);
+	printf("Or check github examples\n");
 	return;
 }
 
@@ -624,13 +609,11 @@ Required parameters:\n\
 	-k, --callsign      Your callsign, with SSID if desired.\n\
 	-e, --longitude     The longitude of your weather station, in degrees east of the Prime Meridian.\n\
 	-n, --latitude      The latitude of your weather station, in degrees north of the equator.\n");
-#ifdef HAVE_APRSIS_SUPPORT
     puts("APRS-IS IGate parameters:\n\
 	-I, --server        Name of the APRS-IS IGate server to submit the packet to.\n\
 	-o, --port          Port that the APRS-IS IGate service is listening on.\n\
 	-u, --username      Authenticate to the server with this username.\n\
 	-d, --password      Authenticate to the server with this password.\n");
-#endif
     puts("Optional parameters:\n\
 	-A, --altitude                 The altitude of your weather station (in feet above mean sea level).\n\
 	-b, --pressure                 Barometric pressure (millibars or hectopascals).\n\
@@ -649,7 +632,8 @@ Required parameters:\n\
 	-V, --voltage                  Battery voltage of your weather station.\n\
 	-X, --radiation                Radiation levels (nanosieverts per hour).\n\
 \n\
-Find this project online at https://github.com/rhymeswithmogul/aprs-weather-submit\n\
+Find this Raspberry Pi project online at https://github.com/marsolla/Raspberry-APRS-Weather-Submit\n\
+Find this Original project online at https://github.com/rhymeswithmogul/aprs-weather-submit\n\
 ");
 	return;
 }
