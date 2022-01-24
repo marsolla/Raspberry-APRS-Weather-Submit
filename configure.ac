@@ -94,20 +94,14 @@ dnl  Check for assert.h.  This is not strictly necessary, but eliminates some
 dnl  compiler warnings if we have it available.
 AC_HEADER_ASSERT
 
-dnl  Check to see if we can compile this with APRS-IS support, unless the user
-dnl  asked us not to.  If --disable-aprs-is was *not* specified and we cannot
-dnl  compile with APRS-IS support for whatever reason, fail.
-AC_ARG_ENABLE([aprs-is], 
-    AS_HELP_STRING([--disable-aprs-is], [Compile without APRS-IS support])
-)
-AS_IF([test "x$enable_aprs-is" = "xyes"], [
-    dnl need: [gai_strerror getaddrinfo inet_ntop ntohs perror recv send shutdown socket]
-    AC_CHECK_HEADERS(
-        [arpa/inet.h errno.h netdb.h netinet/in.h sys/socket.h sys/types.h unistd.h],
-        [],
-        AC_MSG_ERROR([Cannot compile with APRS-IS support.])
-    )
-])
+dnl need: [gai_strerror getaddrinfo inet_ntop ntohs perror recv send shutdown socket]
+AC_CHECK_HEADER(arpa/inet.h, [], AC_MSG_ERROR([arpa/inet.h is required to build this package.]))
+AC_CHECK_HEADER(errno.h, [], AC_MSG_ERROR([errno.h is required to build this package.]))
+AC_CHECK_HEADER(netdb.h, [], AC_MSG_ERROR([netdb.h is required to build this package.]))
+AC_CHECK_HEADER(netinet/in.h, [], AC_MSG_ERROR([netinet/in.h is required to build this package.]))
+AC_CHECK_HEADER(sys/socket.h, [], AC_MSG_ERROR([sys/socket.h is required to build this package.]))
+AC_CHECK_HEADER(sys/types.h, [], AC_MSG_ERROR([sys/types.h is required to build this package.]))
+AC_CHECK_HEADER(unistd.h, [], AC_MSG_ERROR([unistd.h is required to build this package.]))
 
 dnl  Done!
 AC_SUBST(CFLAGS)
