@@ -258,30 +258,33 @@ printAPRSPacket (APRSPacket* restrict const p, char* restrict const ret,
 		 * (GPS fix: current) | (NMEA source: other) | (Origin: software) = 34
 		 * Add 33 as per the spec, and you get 67, the ASCII code for 'C'.
 		 *                                                           ?
-		 *                              header_________ timestamp____ pos_wc_s_Tt__*/
-		//int ret = snprintf(result, 48, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz/%s%s_%c%cg%cCt%s",
-		int ret = snprintf(result, 53, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz/%s%s_%c%cg%cCt%s",
+		 *                              header_________ timestamp____ pos_wc_s_T*/
+
+		int ret = snprintf(result, 41, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz/%s%s_%c%cC",
 			p->callsign, now->tm_mday, now->tm_hour, now->tm_min,
-			p->latitude, p->longitude, p->windDirection[0], p->windSpeed[0],p->gust[0],
-			p->temperature);
+			p->latitude, p->longitude, p->windDirection[0], p->windSpeed[0]);
 		assert(ret >= 0);
 	}
 	else {
-		/*                              header_________ timestamp____pos__wc_ s_t__*/
-		//int ret = snprintf(result, 61, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz%s/%s_%s/%sg%st%s",
-		int ret = snprintf(result, 66, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz%s/%s_%s/%sg%st%s",
+		/*                              header_________ timestamp____pos__wc_ s_*/
+		int ret = snprintf(result, 54, "%s>APRS,TCPIP*:@%.2d%.2d%.2dz%s/%s_%s/%s",
 			p->callsign, now->tm_mday, now->tm_hour, now->tm_min,
-			p->latitude, p->longitude, p->windDirection, p->windSpeed,p->gust,
-			p->temperature);
+			p->latitude, p->longitude, p->windDirection, p->windSpeed);
 		assert(ret >= 0);
 	}
 
-/*	if (notNull(p->gust))
+	if (notNull(p->gust))
 	{
-		strncat(result, "g=", 2);
-		strncat(result, p->gust, 4);
+		strncat(result, "g", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->gust, (sizeof(result) -1 ) - strlen(result));
 	}
-*/
+
+	if (notNull(p->temperature))
+	{
+		strncat(result, "t", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, p->temperature, (sizeof(result) -1 ) - strlen(result));
+	}
+
 	if (notNull(p->rainfallLastHour))
 	{
 		strncat(result, "r", (sizeof(result) -1 ) - strlen(result));
@@ -354,13 +357,11 @@ printAPRSPacket (APRSPacket* restrict const p, char* restrict const ret,
 		strncat(result, "m", (sizeof(result) -1 ) - strlen(result));
 	}
 	
-	if (suppressUserAgent != 0)
+	if (suppressUserAgent == 0)
 	{
 		strncat(result, " X ",(sizeof(result) -1 ) - strlen(result));
-		//strncat(result, "FATWeatherStation", BUFSIZE - strlen(result) - 17);
 		strncat(result, PACKAGE, (sizeof(result) -1 ) - strlen(result));
-		//strncat(result, "/", 1);
-		strncat(result, " V", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, "/V", (sizeof(result) -1 ) - strlen(result));
 		strncat(result, VERSION, (sizeof(result) -1 ) - strlen(result));
 	}
 
