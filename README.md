@@ -9,6 +9,9 @@ This is a repository with small adaptations to run on Raspberry Pi - ARM Platfor
 * Adjusted Agent Suppression Option logic;
 * APRS_IS, no longer optional - Now is default - fully integrated (#define HAVE_APRSIS_SUPPORT 1 removed);
 
+This code was tested using:
+Raspberry Pi Model B V2.0 / 512MB RAM, SOC BCM2835 running Raspbian GNU/Linux 10 (buster)
+
 ## Legal Notices
 
 To use this app, you *must* be either:
