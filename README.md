@@ -1,6 +1,13 @@
 # raspi-aprs-weather-submit for Raspberry Pi - ARM Platform.
 
-This code was inpired/copied from https://github.com/rhymeswithmogul/aprs-weather-submit and adapted to run over Raspberry Pi ARM Plataform.
+This code was inspired/copied from https://github.com/rhymeswithmogul/aprs-weather-submit and adapted to run on the Raspberry Pi ARM platform.
+
+This is a repository with small adaptations to run on Raspberry Pi - ARM Platform, among the changes are:
+* Changing the return code comparison of the arguments menu in the getopt_long main.c function (return 255 instead of -1);
+* Safe use of the strncat function calculating the buffer value without overflow (aprs-wx.c);
+* Removed temperature field from packet header and moved to weather data field;
+* Adjusted Agent Suppression Option logic;
+* APRS_IS, no longer optional - #define HAVE_APRSIS_SUPPORT 1 forever;
 
 ## Legal Notices
 
@@ -9,13 +16,6 @@ To use this app, you *must* be either:
 2.  a member of the [Citizen Weather Observer Program](http://wxqa.com/) in good standing.
 
 Anyone can use this app to create [an APRS packet](http://www.aprs.org/doc/APRS101.PDF).  However, to send it to the APRS-IS network, you must have an account on an APRS-IS IGate server, as well as an amateur radio license or CWOP identifier.
-
-This is a repository with small adaptations to run on Raspberry Pi - ARM Platform, among the changes are:
-* Changing the return code comparison of the arguments menu in the getopt_long main.c function (return 255 instead of -1);
-* Safe use of the strncat function calculating the buffer value without overflow (aprs-wx.c);
-* Removed temperature field from packet header and moved to weather data field;
-* Adjusted Agent Suppression Option logic;
-* APRS_IS, no longer optional - #define HAVE_APRSIS_SUPPORT 1 forever;
 
 ## How to compile:
 
@@ -27,7 +27,7 @@ make
 make install (if you want to install)
 ```
 
-## Example to use:
+## How to use:
 
 ```console
 $./raspi-aprs-weather-submit --callsign PPPXXX --latitude 12.34567 --longitude -12.34567 --server brazil.d2g.com --port 14579 --username PPPXXX --password 1234 --temperature-celsius 22.0 --altitude 600.5 --pressure 1013.0 --humidity 50.5 --wind-direction 0 --wind-speed 22.5 --gust 31.5  
