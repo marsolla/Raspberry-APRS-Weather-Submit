@@ -7,7 +7,7 @@ This is a repository with small adaptations to run on Raspberry Pi - ARM Platfor
 * Safe use of the strncat function calculating the buffer value without overflow (aprs-wx.c);
 * Removed temperature field from packet header and moved to weather data field;
 * Adjusted Agent Suppression Option logic;
-* APRS_IS, no longer optional - #define HAVE_APRSIS_SUPPORT 1 forever;
+* APRS_IS, no longer optional - Now is default - fully integrated (#define HAVE_APRSIS_SUPPORT 1 removed);
 
 ## Legal Notices
 
@@ -30,13 +30,13 @@ make install (if you want to install)
 ## How to use:
 
 ```console
-$./raspi-aprs-weather-submit --callsign PPPXXX --latitude 12.34567 --longitude -12.34567 --server brazil.d2g.com --port 14579 --username PPPXXX --password 1234 --temperature-celsius 22.0 --altitude 600.5 --pressure 1013.0 --humidity 50.5 --wind-direction 0 --wind-speed 22.5 --gust 31.5  
+./raspi-aprs-weather-submit --callsign PPPXXX --latitude 12.34567 --longitude -12.34567 --server brazil.d2g.com --port 14579 --username PPPXXX --password 1234 --temperature-celsius 22.0 --altitude 600.5 --pressure 1013.0 --humidity 50.5 --wind-direction 0 --wind-speed 22.5 --gust 31.5  
 ```
 
 Or, if you just want the raw packet for your own use, don't specify server information:
 
 ```console
-$./raspi-aprs-weather-submit --callsign PPPXXX --latitude 12.34567 --longitude -12.34567 --temperature-celsius 22.0 --altitude 600.5 --pressure 1013.0 --humidity 50.5 --wind-direction 0 --wind-speed 22.5 --gust 31.5  
+./raspi-aprs-weather-submit --callsign PPPXXX --latitude 12.34567 --longitude -12.34567 --temperature-celsius 22.0 --altitude 600.5 --pressure 1013.0 --humidity 50.5 --wind-direction 0 --wind-speed 22.5 --gust 31.5  
 
 PPPXXX>APRS,TCPIP*:@240411z1220.74N/01220.74W_000/023g032t072h50b10130/A=  600m X raspi-aprs-weather-submit/V1.5
 ```
