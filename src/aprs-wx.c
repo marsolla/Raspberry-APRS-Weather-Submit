@@ -357,10 +357,8 @@ printAPRSPacket (APRSPacket* restrict const p, char* restrict const ret,
 	if (suppressUserAgent != 0)
 	{
 		strncat(result, " X ",(sizeof(result) -1 ) - strlen(result));
-		//strncat(result, "FATWeatherStation", BUFSIZE - strlen(result) - 17);
 		strncat(result, PACKAGE, (sizeof(result) -1 ) - strlen(result));
-		//strncat(result, "/", 1);
-		strncat(result, " V", (sizeof(result) -1 ) - strlen(result));
+		strncat(result, "/V", (sizeof(result) -1 ) - strlen(result));
 		strncat(result, VERSION, (sizeof(result) -1 ) - strlen(result));
 	}
 
