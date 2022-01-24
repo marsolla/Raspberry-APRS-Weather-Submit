@@ -24,7 +24,9 @@ sudo apt install autoconf
 autoreconf -i
 ./configure
 make
-make install (if you want to install)
+make install (if you want to install in your system path)
+
+ps> use "make clean" to clean binaries before re-compile
 ```
 
 ## How to use:
